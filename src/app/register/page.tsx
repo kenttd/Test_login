@@ -1,18 +1,17 @@
-import Script from "next/script";
+import { PMBForm } from "@/components/PMBForm";
+import { LoginButton } from "@/components/loginButton";
+import { ModeToggle } from "@/components/mode-toggle";
+
 export default function AdminHome() {
   return (
-    <>
-      <Script
-        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-        async
-        defer
-      ></Script>
-      <div
-        className="cf-turnstile"
-        data-sitekey={process.env.TURNSTILE_SITE_KEY}
-        data-callback="javascriptCallback"
-      ></div>
-      <div>test</div>
-    </>
+    <div className="relative min-h-screen">
+      <div className="absolute top-4 right-4 flex space-x-3">
+        <LoginButton />
+        <ModeToggle />
+      </div>
+      <div className="flex justify-center items-center min-h-screen">
+        <PMBForm />
+      </div>
+    </div>
   );
 }
