@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { AdminTable } from "@/components/adminTable";
 import { ChartAdmin } from "@/components/chartAdmin";
 import { ModeToggle } from "@/components/mode-toggle";
+import { AddAdminButton } from "@/components/addAdminButton";
 
 export default function AdminHome() {
   const router = useRouter();
@@ -51,8 +52,13 @@ export default function AdminHome() {
   return (
     <div>
       <div className="flex justify-between p-4">
-        {user ? <div>Welcome, {user.name}</div> : <div>Loading...</div>}
+        <div className="flex justify-center">
+          {user ? <div>Welcome, {user.name}</div> : <div>Loading...</div>}
+          <img src={user?.picture} alt="" className="h-10 pl-3" />
+        </div>
+
         <div className="flex space-x-3">
+          <AddAdminButton />
           <Button
             variant="destructive"
             onClick={() => {

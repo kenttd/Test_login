@@ -32,6 +32,7 @@ import { Turnstile } from "@/components/turnstile";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { toast } from "sonner";
+import { useState } from "react";
 
 const formSchema = z.object({
   username: z.string({
@@ -60,6 +61,7 @@ const formSchema = z.object({
 });
 
 export function PMBForm() {
+  const [turnstileToken, setTurnstileToken] = useState<string>("");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -68,7 +70,7 @@ export function PMBForm() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const form = GetForm(values);
+    const form = GetForm(values, turnstileToken);
     fetch("/api/mhsbaru", {
       method: "post",
       body: form,
@@ -79,7 +81,7 @@ export function PMBForm() {
         toast.error("Gagal mendaftar");
       }
     });
-    toast.loading("Mendaftar...");
+    toast.loading("Mendaftar...", { duration: 3000 });
     console.log(values);
   }
   return (
@@ -249,7 +251,13 @@ export function PMBForm() {
                 </FormItem>
               )}
             />
-            <Turnstile />
+            {/* <Turnstile /> */}
+            <Turnstile
+              onVerify={(token) => {
+                setTurnstileToken(token);
+                console.log(token);
+              }}
+            />
             <Button type="submit" className="pt-3">
               Submit
             </Button>
@@ -260,7 +268,7 @@ export function PMBForm() {
   );
 }
 
-function GetForm(values: any) {
+function GetForm(values: any, turnstileToken: string) {
   const form = new FormData();
   form.append("username", values.username);
   form.append("password", values.password);
@@ -269,5 +277,6 @@ function GetForm(values: any) {
   form.append("jurusan", values.jurusan);
   form.append("dob", values.dob);
   form.append("jk", values.jk);
+  form.append("cf-turnstile-response", turnstileToken);
   return form;
 }

@@ -22,7 +22,7 @@ export function LoginWithGoogle() {
             push(googleUrl ?? "");
           }}
         >
-          Login with Google
+          {googleUrl === null ? "loading..." : "Login with Google"}
         </Button>
       </div>
     </div>
