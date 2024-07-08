@@ -252,12 +252,7 @@ export function PMBForm() {
               )}
             />
             {/* <Turnstile /> */}
-            <Turnstile
-              onVerify={(token) => {
-                setTurnstileToken(token);
-                console.log(token);
-              }}
-            />
+            <Turnstile />
             <Button type="submit" className="pt-3">
               Submit
             </Button>
